@@ -63,12 +63,13 @@ class ImagesField(Field):
         with_camera (bool): whether camera data should be provided
     '''
     def __init__(self, folder_name, transform=None,
-                 extension='jpg', random_view=True, with_camera=False):
+                 extension='jpg', random_view=True, with_camera=False, with_image_path=False):
         self.folder_name = folder_name
         self.transform = transform
         self.extension = extension
         self.random_view = random_view
         self.with_camera = with_camera
+        self.with_image_path = with_image_path
 
     def load(self, model_path, idx, category):
         ''' Loads the data point.
@@ -97,10 +98,17 @@ class ImagesField(Field):
         if self.with_camera:
             camera_file = os.path.join(folder, 'cameras.npz')
             camera_dict = np.load(camera_file)
-            Rt = camera_dict['world_mat_%d' % idx_img].astype(np.float32)
-            K = camera_dict['camera_mat_%d' % idx_img].astype(np.float32)
+            img_nr = int(filename.split('/')[5].split('.')[0])
+            Rt = camera_dict['world_mat_%d' % img_nr].astype(np.float32)
+            K = camera_dict['camera_mat_%d' % img_nr].astype(np.float32)
+            '''Rt = camera_dict['world_mat_%d' % idx_img].astype(np.float32)
+            K = camera_dict['camera_mat_%d' % idx_img].astype(np.float32)'''
             data['world_mat'] = Rt
             data['camera_mat'] = K
+
+        if self.with_image_path:
+            data['image_path']=filename
+            data['img_idx']=idx_img
 
         return data
 

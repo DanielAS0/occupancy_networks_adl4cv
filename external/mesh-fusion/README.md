@@ -18,7 +18,7 @@ If you use any of this code, please make sure to cite the following work:
     }
 
 See the GitHub repositories above for additional citations.
-Also check the corresponding [project page](http://davidstutz.de/projects/shape-completion/).
+Also check thoccnet e corresponding [project page](http://davidstutz.de/projects/shape-completion/).
 
 The pipeline consists of three steps:
 

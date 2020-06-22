@@ -3,7 +3,7 @@ data:
   path: data/ShapeNet
   img_folder: img_choy2016
   img_size: 224 
-  points_subsample: 2048 
+  points_subsample: 2048
 model:
   encoder_latent: null
   decoder: cbatchnorm

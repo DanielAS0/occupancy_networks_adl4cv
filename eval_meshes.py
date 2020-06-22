@@ -8,6 +8,8 @@ import torch
 from im2mesh import config, data
 from im2mesh.eval import MeshEvaluator
 from im2mesh.utils.io import load_pointcloud
+from im2mesh.common import transform_points
+import numpy as np
 
 
 parser = argparse.ArgumentParser(
@@ -114,6 +116,20 @@ for it, data in enumerate(tqdm(test_loader)):
     }
     eval_dicts.append(eval_dict)
 
+    #TODO: transform pc_tgt, nmls_tgt, points_tgt -> get transformation corresponding to mesh
+    # Guess: image used is always nr. 18
+    if cfg['data']['camera_space']:
+        camera_file = os.path.join('data/ShapeNetPhones', category_id, modelname, 'img_choy2016/cameras.npz')
+        camera_dict = np.load(camera_file)
+        img_nr = 18
+        transform = camera_dict['world_mat_%d' % img_nr].astype(np.float32)
+        R = transform[:,:3]
+        pointcloud_tgt = pointcloud_tgt@ R.T
+        normals_tgt = normals_tgt@ R.T
+        points_tgt = points_tgt@ R.T
+
+
+
     # Evaluate mesh
     if cfg['test']['eval_mesh']:
         mesh_file = os.path.join(mesh_dir, '%s.off' % modelname)
@@ -127,6 +143,7 @@ for it, data in enumerate(tqdm(test_loader)):
         else:
             print('Warning: mesh does not exist: %s' % mesh_file)
 
+    '''NOT USED FOR OCCNET'''
     # Evaluate point cloud
     if cfg['test']['eval_pointcloud']:
         pointcloud_file = os.path.join(

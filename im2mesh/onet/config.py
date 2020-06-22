@@ -76,6 +76,7 @@ def get_trainer(model, optimizer, cfg, device, **kwargs):
         device=device, input_type=input_type,
         vis_dir=vis_dir, threshold=threshold,
         eval_sample=cfg['training']['eval_sample'],
+        camera_space=cfg['data']['camera_space'],
     )
 
     return trainer

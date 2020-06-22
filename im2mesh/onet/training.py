@@ -4,10 +4,11 @@ import torch
 from torch.nn import functional as F
 from torch import distributions as dist
 from im2mesh.common import (
-    compute_iou, make_3d_grid
+    compute_iou, make_3d_grid, transform_points
 )
 from im2mesh.utils import visualize as vis
 from im2mesh.training import BaseTrainer
+import numpy as np
 
 
 class Trainer(BaseTrainer):
@@ -25,7 +26,7 @@ class Trainer(BaseTrainer):
     '''
 
     def __init__(self, model, optimizer, device=None, input_type='img',
-                 vis_dir=None, threshold=0.5, eval_sample=False):
+                 vis_dir=None, threshold=0.5, eval_sample=False, camera_space=False):
         self.model = model
         self.optimizer = optimizer
         self.device = device
@@ -33,6 +34,7 @@ class Trainer(BaseTrainer):
         self.vis_dir = vis_dir
         self.threshold = threshold
         self.eval_sample = eval_sample
+        self.camera_space = camera_space
 
         if vis_dir is not None and not os.path.exists(vis_dir):
             os.makedirs(vis_dir)
@@ -72,6 +74,15 @@ class Trainer(BaseTrainer):
         points_iou = data.get('points_iou').to(device)
         occ_iou = data.get('points_iou.occ').to(device)
 
+
+        '''TRANSFORMATION TO CAMERA SPACE'''
+        if self.camera_space:
+            transform = data.get('inputs.world_mat').to(device)
+            R = transform[:, :, :3]
+            points = transform_points(points, transform)
+            points_iou = transform_points(points_iou, R)
+        '''END'''
+
         kwargs = {}
 
         with torch.no_grad():
@@ -93,6 +104,40 @@ class Trainer(BaseTrainer):
         occ_iou_hat_np = (p_out.probs >= threshold).cpu().numpy()
         iou = compute_iou(occ_iou_np, occ_iou_hat_np).mean()
         eval_dict['iou'] = iou
+
+        '''
+        with torch.no_grad():
+            p_out_r = self.model(points_iou_r, inputs,
+                               sample=self.eval_sample, **kwargs)
+
+        occ_iou_r_hat_np = (p_out_r.probs >= threshold).cpu().numpy()
+        iou_r = compute_iou(occ_iou_np, occ_iou_r_hat_np).mean()
+        eval_dict['iou_r'] = iou_r
+
+        data['iou_r'] = iou_r
+        data['iou'] = iou
+        data['occ_iou_r_hat_np'] = occ_iou_r_hat_np
+        data['occ_iou_hat_np'] = occ_iou_hat_np
+        
+        SAVE IOU DATA
+        # Create npz and save
+        im_path = str(data.get('inputs.image_path')[0]).split('/')
+        model=im_path[3]
+        im_nr=im_path[5].split('.')[0]
+        out_dir = 'IOU'
+        np.savez(os.path.join(out_dir, model+'_'+im_nr), iou_r=iou_r,
+                 occ_iou_hat_np=occ_iou_hat_np,
+                 occ_iou_r_hat_np=occ_iou_r_hat_np,
+                 iou=iou,
+                 occ_iou=occ_iou.cpu().numpy(),
+                 transform=transform.cpu().numpy(),
+                 points_iou=points_iou.cpu().numpy(),
+                 points_iou_r=points_iou_r.cpu().numpy(),
+                 model=model,
+                 im_nr=im_nr,
+                 image=inputs.cpu().numpy()
+                 )
+        END'''
 
         # Estimate voxel iou
         if voxels_occ is not None:
@@ -154,12 +199,18 @@ class Trainer(BaseTrainer):
         occ = data.get('points.occ').to(device)
         inputs = data.get('inputs', torch.empty(p.size(0), 0)).to(device)
 
+        '''TRANSFORMATION TO CAMERA SPACE'''
+        if self.camera_space:
+            transform = data.get('inputs.world_mat').to(device)
+            R = transform[:, :, :3]
+            p = transform_points(p, transform)
+        '''END'''
+
         kwargs = {}
 
         c = self.model.encode_inputs(inputs)
         q_z = self.model.infer_z(p, occ, c, **kwargs)
         z = q_z.rsample()
-
         # KL-divergence
         kl = dist.kl_divergence(q_z, self.model.p0_z).sum(dim=-1)
         loss = kl.mean()

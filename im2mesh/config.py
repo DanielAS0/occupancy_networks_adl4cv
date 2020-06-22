@@ -198,6 +198,7 @@ def get_inputs_field(mode, cfg):
         ])
 
         with_camera = cfg['data']['img_with_camera']
+        with_image_path=cfg['data']['with_image_path']
 
         if mode == 'train':
             random_view = True
@@ -206,7 +207,8 @@ def get_inputs_field(mode, cfg):
 
         inputs_field = data.ImagesField(
             cfg['data']['img_folder'], transform,
-            with_camera=with_camera, random_view=random_view
+            with_camera=with_camera, random_view=random_view,
+            with_image_path=with_image_path
         )
     elif input_type == 'pointcloud':
         transform = transforms.Compose([

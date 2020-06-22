@@ -47,7 +47,7 @@ print('Total number of parameters: %d' % nparameters)
 # Evaluate
 model.eval()
 
-eval_dicts = []   
+eval_dicts = []
 print('Evaluating networks...')
 
 
