@@ -1,0 +1,12 @@
+set LANG for running meshlabserver:
+LC_NUMERIC=C
+
+set Python path after installation:
+export PYTHONPATH="$PYTHONPATH:/home/daniel/ADL4CV/mesh-fusion/librender:/home/daniel/ADL4CV/mesh-fusion/libfusiongpu:/home/daniel/ADL4CV/mesh-fusion/libmcubes"
+
+pipeline for pix3d object in examples/1_scaled:
+export PYTHONPATH="$PYTHONPATH:/home/daniel/ADL4CV/mesh-fusion/librender:/home/daniel/ADL4CV/mesh-fusion/libfusiongpu:/home/daniel/ADL4CV/mesh-fusion/libmcubes"
+python 2_fusion_obj.py --mode=render --in_dir=examples/1_scaled/ --out_dir=examples/2_depth/
+python 2_fusion_obj.py --mode=fuse --in_dir=examples/2_depth/ --out_dir=examples/2_watertight/
+python 3_simplify.py --in_dir=examples/2_watertight/ --out_dir=examples/3_out/
+python 4_rotate.py --in_dir=examples/3_out/ --out_dir=examples/4_rotated/

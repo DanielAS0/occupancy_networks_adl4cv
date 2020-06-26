@@ -274,8 +274,8 @@ def read_obj(file):
                     print('[Info] skipping degenerate face in %s' % file)
                 else:
                     faces.append([v1 - 1, v2 - 1, v3 - 1]) # indices are 1-based!
-            else:
-                assert False, 'expected either vertex or face but got line: %s (%s)' % (line, file)
+            #else:
+            #    assert False, 'expected either vertex or face but got line: %s (%s)' % (line, file)
 
         return vertices, faces
 

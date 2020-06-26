@@ -20,6 +20,7 @@ class Simplification:
             os.path.dirname(os.path.realpath(__file__)), 'simplification.mlx')
 
     def get_parser(self):
+
         """
         Get parser of tool.
 
@@ -70,7 +71,7 @@ class Simplification:
         files = self.get_in_files()
 
         for filepath in files:
-            os.system('meshlabserver -i %s -o %s -s %s' % (
+            os.system('LC_NUMERIC=C meshlabserver -i %s -o %s -s %s' % (
                 filepath,
                 os.path.join(self.options.out_dir, ntpath.basename(filepath)),
                 self.simplification_script
