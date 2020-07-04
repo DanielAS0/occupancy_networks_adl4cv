@@ -38,6 +38,7 @@ lsfilter() {
 
  for f in $folder/*; do
    filename=$(basename $f)
+   print($filename)
    if [ ! -f $other_folder/$filename$ext ] && [ ! -d $other_folder/$filename$ext ]; then
     echo $filename
    fi

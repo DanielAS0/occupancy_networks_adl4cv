@@ -88,17 +88,17 @@ class Fusion:
                             help='Number of points to sample per model.')
         parser.add_argument('--n_views', type=int, default=100,
                             help='Number of views per model.')
-        parser.add_argument('--image_height', type=int, default=640,
+        parser.add_argument('--image_height', type=int, default=960,
                             help='Depth image height.')
-        parser.add_argument('--image_width', type=int, default=640,
+        parser.add_argument('--image_width', type=int, default=960,
                             help='Depth image width.')
-        parser.add_argument('--focal_length_x', type=float, default=640,
+        parser.add_argument('--focal_length_x', type=float, default=960,
                             help='Focal length in x direction.')
-        parser.add_argument('--focal_length_y', type=float, default=640,
+        parser.add_argument('--focal_length_y', type=float, default=960,
                             help='Focal length in y direction.')
-        parser.add_argument('--principal_point_x', type=float, default=320,
+        parser.add_argument('--principal_point_x', type=float, default=480,
                             help='Principal point location in x direction.')
-        parser.add_argument('--principal_point_y', type=float, default=320,
+        parser.add_argument('--principal_point_y', type=float, default=480,
                             help='Principal point location in y direction.')
         parser.add_argument('--sample_weighted', action='store_true',
                             help='Whether to use weighted sampling.')
@@ -107,7 +107,7 @@ class Fusion:
         parser.add_argument(
             '--depth_offset_factor', type=float, default=1.5,
             help='The depth maps are offsetted using depth_offset_factor*voxel_size.')
-        parser.add_argument('--resolution', type=float, default=256,
+        parser.add_argument('--resolution', type=float, default=512,
                             help='Resolution for fusion.')
         parser.add_argument(
             '--truncation_factor', type=float, default=10,

@@ -17,7 +17,7 @@ class Simplification:
         parser = self.get_parser()
         self.options = parser.parse_args()
         self.simplification_script = os.path.join(
-            os.path.dirname(os.path.realpath(__file__)), 'simplification.mlx')
+            os.path.dirname(os.path.realpath(__file__)), 'simplification_and_smoothing.mlx')
 
     def get_parser(self):
 
