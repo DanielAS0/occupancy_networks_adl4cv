@@ -1,12 +1,12 @@
 source dataset_pix3d/config.sh
 # Make output directories
-mkdir -p $BUILD_PATH
+mkdir -p $OCCUPANCY_BUILD_PATH
 
 # Run build
 for c in ${CLASSES[@]}; do
   echo "Processing class $c"
   input_path_c=$INPUT_PATH/$c
-  build_path_c=$BUILD_PATH/$c
+  build_path_c=$OCCUPANCY_BUILD_PATH/$c
 
   mkdir -p $build_path_c/0_in \
            $build_path_c/1_scaled \

@@ -1,0 +1,36 @@
+method: onet
+data:
+  classes: ['bed']
+  path: data/Pix3d_SN
+  train_split: train
+  test_split: test
+  val_split: test
+  img_folder: images
+  img_size: 224 
+  points_subsample: 2048
+  model_file: model.obj
+model:
+  encoder_latent: null
+  decoder: cbatchnorm
+  encoder: resnet18
+  c_dim: 256
+  z_dim: 0
+training:
+  out_dir:  out/img/onet_pix3d
+  batch_size: 64
+  model_selection_metric: iou
+  model_selection_mode: maximize
+  visualize_every: 20000
+  validate_every: 20000
+test:
+  threshold: 0.2
+  eval_mesh: true
+  eval_pointcloud: false
+generation:
+  batch_size: 100000
+  refine: false
+  n_x: 128
+  n_z: 1
+  resolution_0: 32 
+  upsampling_steps: 2
+

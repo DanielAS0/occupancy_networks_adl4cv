@@ -12,7 +12,7 @@ model:
   decoder: cbatchnorm
   encoder: idx
   decoder_kwargs:
-    legacy: true
+  legacy: true
   c_dim: 512
   z_dim: 0
   use_poincloud: false
