@@ -5,15 +5,16 @@ import trimesh
 from im2mesh.eval import MeshEvaluator
 import numpy as np
 
-pix3d_path = '/home/daniel/ADL4CV/datasets/Pix3D'
+pix3d_path = '../../datasets/pix3d'
 eval_dicts = []
 evaluator = MeshEvaluator(n_points=200000)
 folders = ['occupancy', 'occupancy_manifold', 'occupancy_manifoldPlus']
-classes = ['bookcase', 'desk', 'sofa', 'wardrobe']
+classes = ['bookcase', 'desk', 'sofa', 'wardrobe', 'table', 'bed', 'misc', 'tool']
 
 for f in folders:
-
+    print('processing folder %s' % f)
     for c in classes:
+        print('processing class %s' % c)
         path = os.path.join(pix3d_path, f, c, '*/model.obj')
 
         for file in glob.glob(path):
@@ -36,7 +37,7 @@ for f in folders:
                 occupied_perc = 100*occupiedPoints.shape[0]/occupancies.shape[0]
                 eval_dict['occupancy rate'] = occupied_perc
             else:
-                print('Warning: %s points for %s %s do not exist' %(f, c, modelname))
+                print('Warning: %s points for %s %s do not exist' % (f, c, modelname))
 
             # Pointcloud
             pointcloud_path = os.path.join(model_path, 'pointcloud.npz')
@@ -59,9 +60,9 @@ for f in folders:
                     for k, v in eval_dict_pointcloud.items():
                         eval_dict[k] = v
                 else:
-                    print('Warning: original mesh for %s does not exist' %(c, modelname))
+                    print('Warning: original mesh for %s does not exist' % (c, modelname))
             else:
-                print('Warning: %s pointcloud for %s %s does not exist' %(f, c, modelname))
+                print('Warning: %s pointcloud for %s %s does not exist' % (f, c, modelname))
 # statistics
 out_file = os.path.join(pix3d_path, 'eval_generation_full.pkl')
 out_file_class = os.path.join(pix3d_path, 'eval_generation.csv')

@@ -14,14 +14,14 @@ reorganize_data() {
 export -f reorganize_data
 
 # Make output directories
-mkdir -p $OCCUPANCY_OUTPUT_PATH
+mkdir -p $MANIFOLDPLUS_OUTPUT_PATH
 
 # Run build
 for c in ${CLASSES[@]}; do
 
   echo "Parsing class $c"
-  BUILD_PATH_C=$OCCUPANCY_BUILD_PATH/$c
-  OUTPUT_PATH_C=$OCCUPANCY_OUTPUT_PATH/$c
+  BUILD_PATH_C=$MANIFOLDPLUS_BUILD_PATH/$c
+  OUTPUT_PATH_C=$MANIFOLDPLUS_OUTPUT_PATH/$c
   INPUT_PATH_C=$INPUT_PATH/$c
   mkdir -p $OUTPUT_PATH_C
   ls $INPUT_PATH_C | parallel -P $NPROC --timeout $TIMEOUT \

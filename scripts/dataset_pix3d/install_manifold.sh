@@ -6,7 +6,7 @@ reorganize_data() {
   output_path=$2/$modelname
   build_path=$3
   mkdir -p $output_path
-  cp "$build_path/2_watertight/$modelname.obj" "$output_path/model.obj"
+  cp "$build_path/3_simplified/$modelname.obj" "$output_path/model.obj"
   cp "$build_path/4_points/$modelname.npz" "$output_path/points.npz"
   cp "$build_path/4_pointcloud/$modelname.npz" "$output_path/pointcloud.npz"
 }
@@ -14,14 +14,14 @@ reorganize_data() {
 export -f reorganize_data
 
 # Make output directories
-mkdir -p $OCCUPANCY_OUTPUT_PATH
+mkdir -p $MANIFOLD_OUTPUT_PATH
 
 # Run build
 for c in ${CLASSES[@]}; do
 
   echo "Parsing class $c"
-  BUILD_PATH_C=$OCCUPANCY_BUILD_PATH/$c
-  OUTPUT_PATH_C=$OCCUPANCY_OUTPUT_PATH/$c
+  BUILD_PATH_C=$MANIFOLD_BUILD_PATH/$c
+  OUTPUT_PATH_C=$MANIFOLD_OUTPUT_PATH/$c
   INPUT_PATH_C=$INPUT_PATH/$c
   mkdir -p $OUTPUT_PATH_C
   ls $INPUT_PATH_C | parallel -P $NPROC --timeout $TIMEOUT \

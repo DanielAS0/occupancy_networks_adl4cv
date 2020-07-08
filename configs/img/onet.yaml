@@ -1,6 +1,6 @@
 method: onet
 data:
-  path: data/ShapeNet
+  path: data/ShapeNetPhones
   img_folder: img_choy2016
   img_size: 224 
   points_subsample: 2048

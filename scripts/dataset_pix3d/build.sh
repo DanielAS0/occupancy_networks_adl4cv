@@ -41,13 +41,16 @@ for c in ${CLASSES[@]}; do
     --out_dir $build_path_c/2_watertight \
     --t_dir $build_path_c/1_transform
 
-  echo "Simplify and smooth meshes"
-  python $MESHFUSION_PATH/3_simplify.py \
-      --in_dir $build_path_c/2_watertight \
-      --out_dir $build_path_c/3_simplified
 
-  echo "Process simplified meshes"
-  python sample_mesh_obj.py $build_path_c/3_simplified \
+  #echo "Simplify and smooth meshes"
+  #python $MESHFUSION_PATH/3_simplify.py \
+  #    --in_dir $build_path_c/2_watertight \
+  #    --out_dir $build_path_c/3_simplified
+
+
+  #echo "Process simplified meshes"
+  echo "Process meshes"
+  python sample_mesh_obj.py $build_path_c/2_watertight \
       --n_proc $NPROC \
       --pointcloud_folder $build_path_c/4_pointcloud \
       --points_folder $build_path_c/4_points \

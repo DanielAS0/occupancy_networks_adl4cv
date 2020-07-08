@@ -3,17 +3,16 @@ ROOT=..
 export MESHFUSION_PATH=$ROOT/external/mesh-fusion
 export HDF5_USE_FILE_LOCKING=FALSE # Workaround for NFS mounts
 
-#INPUT_PATH=$ROOT/data/external/Pix3d/model
-INPUT_PATH=$ROOT/data/external/Pix3d/model
+INPUT_PATH=$ROOT/data/external/pix3d/model
 
-MANIFOLD_BUILD_PATH=$ROOT/data/build/Pix3d_manifold_build
-MANIFOLDPLUS_BUILD_PATH=$ROOT/data/build/Pix3d_manifoldPlus_build
-OCCUPANCY_BUILD_PATH=$ROOT/data/build/Pix3d_build
+MANIFOLD_BUILD_PATH=$ROOT/data/build/pix3d_manifold_build
+MANIFOLDPLUS_BUILD_PATH=$ROOT/data/build/pix3d_manifoldPlus_build
+OCCUPANCY_BUILD_PATH=$ROOT/data/build/pix3d_build
 
-MANIFOLD_OUTPUT_PATH=$ROOT/data/external/Pix3d/occupancy_manifold
-MANIFOLDPLUS_OUTPUT_PATH=$ROOT/data/external/Pix3d/occupancy_manifoldPlus
-OCCUPANCY_OUTPUT_PATH=$ROOT/data/external/Pix3d/occupancy
-SN_OUTPUT_PATH=$ROOT/data/Pix3d_SN
+MANIFOLD_OUTPUT_PATH=$ROOT/data/external/pix3d/occupancy_manifold_small
+MANIFOLDPLUS_OUTPUT_PATH=$ROOT/data/external/pix3d/occupancy_manifoldPlus_small
+OCCUPANCY_OUTPUT_PATH=$ROOT/data/external/pix3d/occupancy_small
+SN_OUTPUT_PATH=$ROOT/data/pix3d_SN
 
 NPROC=0
 TIMEOUT=180
